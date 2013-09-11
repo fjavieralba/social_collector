@@ -7,4 +7,4 @@ This project is a quick implementation of some ideas behind the openbus project,
 
 "Monitorization" here should be understood as being capable of detecting early problematic situations or opinions that customers are spreading.
 
-
+To see development progress, see "develop" branch: https://github.com/Produban/bsch_social_monitor/tree/develop
