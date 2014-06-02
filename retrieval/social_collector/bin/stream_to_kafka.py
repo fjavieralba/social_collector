@@ -6,7 +6,10 @@ from social_collector import twitter, settings
 def produce(broker_list, topic, keywords):
     tw = twitter.Twitter(**settings.oauth)
     kafka = KafkaClient(broker_list)
-    producer = SimpleProducer(kafka)
+
+    #aynchronous producer that sends messages in batches
+    producer = SimpleProducer(kafka, async=True, batch_send=True,
+                              batch_send_every_n=10, batch_send_every_t=10)
 
 	#send messages synchronously
     for raw_tweet in tw.stream(keywords):
