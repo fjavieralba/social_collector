@@ -4,7 +4,7 @@ import argparse
 from social_collector import twitter, settings
 
 def produce(broker_list, topic, keywords):
-    tw = twitter.Twitter(**settings.oauth)
+    tw = twitter.Twitter(**settings.twitter)
     kafka = KafkaClient(broker_list)
 
     #aynchronous producer that sends messages in batches
@@ -19,7 +19,7 @@ def produce(broker_list, topic, keywords):
 
 
 #example:
-#python bin/stream_to_kafka.py --broker-list localhost:9092 --topic tweets --keywords "bancosantander,santander_es,santander_br,SantanderMx,santanderchile,FBBancoSantander,bsch,central hispano,banco santander,santanderGP,SacSantander_br,santanderukhelp,santanderuk,santanderpb,empleosantander"
+#python bin/stream_to_kafka.py --broker-list localhost:9092 --topic twitter --keywords "produban,bancosantander,santander_es,santander_br,SantanderMx,santanderchile,FBBancoSantander,bsch,central hispano,banco santander,santanderGP,SacSantander_br,santanderukhelp,santanderuk,santanderpb,empleosantander"
 
 if __name__ == "__main__":
     #parse args

@@ -5,11 +5,12 @@ import requests
 class Twitter(object):
 
     def __init__(self, access_token=None, access_token_secret=None, 
-                consumer_key=None, consumer_secret=None):
+                consumer_key=None, consumer_secret=None, proxies=None):
         self.oauth = OAuth1(consumer_key,
                             client_secret=consumer_secret,
                             resource_owner_key=access_token,
                             resource_owner_secret=access_token_secret)
+        self.proxies = proxies
 
 
     def stream(self, keywords):
@@ -17,12 +18,13 @@ class Twitter(object):
             connects to twitter stream API and yields received tweets
         """
         stream = requests.post('https://stream.twitter.com/1/statuses/filter.json',
-                                data={'track': keywords}, auth=self.oauth, stream=True)
+                                data={'track': keywords}, auth=self.oauth, stream=True,
+                                proxies=self.proxies)
         return stream.iter_lines()
 
     def search(self, **kwargs):
         url = 'https://api.twitter.com/1.1/search/tweets.json'
-        response = requests.get(url, params=kwargs, auth=self.oauth)
+        response = requests.get(url, params=kwargs, auth=self.oauth, proxies=self.proxies)
         return response.content
 
     def user_timeline(self, **kwargs):
@@ -33,7 +35,7 @@ class Twitter(object):
         # for some obscure reason, using requests payload will result in oauth authentication error
         # because of that we use this more rudimentary process:
         url = "https://api.twitter.com/1.1/statuses/user_timeline.json?"
-        response = requests.get(url, params=kwargs, auth=self.oauth)
+        response = requests.get(url, params=kwargs, auth=self.oauth, proxies=self.proxies)
         return response.content
 
 class TweetAnalyzer(object):

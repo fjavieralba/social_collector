@@ -12,7 +12,7 @@ channel = rabbitmq_connection.channel()
 channel.exchange_declare(exchange='tweets', exchange_type='direct')
 
 # initialize Twitter connection:
-twitter = twitter.Twitter(**settings.oauth)
+twitter = twitter.Twitter(**settings.twitter)
 
 for tweet_str in twitter.stream(sys.argv[1]):
     try:
